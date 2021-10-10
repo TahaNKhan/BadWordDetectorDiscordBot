@@ -7,7 +7,7 @@ Make sure you have the following installed:
 2. Maven
 
 And have the following set as an environment variable:
-- Key: `DiscordBot.BadWordDetector.Token` -- Value: `{bot-token-here}`
+- Key: `DiscordBot_BadWordDetector_Token` -- Value: `{bot-token-here}`
 
 ## How to run?
 
