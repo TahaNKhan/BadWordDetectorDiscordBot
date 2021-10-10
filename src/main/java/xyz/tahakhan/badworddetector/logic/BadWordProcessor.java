@@ -19,8 +19,12 @@ public class BadWordProcessor {
 
     private Instant nextRefreshTime;
 
+    private final HttpClient webClient;
+
     @Autowired
-    private HttpClient webClient;
+    public BadWordProcessor(HttpClient httpClient) {
+        this.webClient = httpClient;
+    }
 
     private static final Object lock = new Object();
 

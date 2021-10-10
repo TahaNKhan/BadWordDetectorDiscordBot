@@ -31,7 +31,9 @@ public class App implements CommandLineRunner {
 
         badWordDetector.initializeBadMessageListener();
 
-        while (true) {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> badWordDetector.shutdown()));
+
+        while (badWordDetector.isRunning()) {
             // stay alive
         }
     }

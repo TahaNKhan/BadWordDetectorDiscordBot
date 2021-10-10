@@ -1,5 +1,6 @@
 package xyz.tahakhan.badworddetector;
 
+import lombok.extern.log4j.Log4j2;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import xyz.tahakhan.badworddetector.listeners.BadMessageListener;
 import xyz.tahakhan.badworddetector.listeners.ReadyListener;
 
 @Component
+@Log4j2
 public class BadWordDetector {
 
     private JDA jda;
@@ -38,4 +40,14 @@ public class BadWordDetector {
         jda.addEventListener(badMessageListener);
     }
 
+    public boolean isRunning() {
+        return jda.getStatus().isInit();
+    }
+
+    public void shutdown() {
+        log.info("Shutting down! Closing connection.");
+        System.out.println("SHUTTING DOWN!");
+        jda.shutdownNow();
+        log.info("Finished closing connection.");
+    }
 }
