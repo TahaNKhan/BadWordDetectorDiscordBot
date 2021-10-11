@@ -15,15 +15,13 @@ public class App implements CommandLineRunner {
     @Autowired
     private BadWordDetector badWordDetector;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         log.info("STARTING THE APPLICATION");
 
         SpringApplication app = new SpringApplication(App.class);
         // disable spring banner
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
-
-        log.info("APPLICATION FINISHED");
     }
 
     @Override
@@ -31,12 +29,11 @@ public class App implements CommandLineRunner {
         log.info("EXECUTING : Starting the bot...");
         badWordDetector.initialize();
 
-        badWordDetector.initializeBadMessageListener();
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+    }
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> badWordDetector.shutdown()));
-
-        while (true) {
-            // stay alive
-        }
+    public void shutdown() {
+        badWordDetector.shutdown();
+        log.info("APPLICATION FINISHED!");
     }
 }

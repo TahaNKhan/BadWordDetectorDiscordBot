@@ -9,39 +9,35 @@ import xyz.tahakhan.badworddetector.auth.TokenGrabber;
 import xyz.tahakhan.badworddetector.listeners.BadMessageListener;
 import xyz.tahakhan.badworddetector.listeners.ReadyListener;
 
+import javax.security.auth.login.LoginException;
+
 @Component
 @Log4j2
 public class BadWordDetector {
 
     private JDA jda;
+    private final TokenGrabber tokenGrabber;
+    private final ReadyListener readyListener;
+    private final BadMessageListener badMessageListener;
 
     @Autowired
-    private TokenGrabber tokenGrabber;
-
-    @Autowired
-    private ReadyListener readyListener;
-
-    @Autowired
-    private BadMessageListener badMessageListener;
+    public BadWordDetector(TokenGrabber tokenGrabber, ReadyListener readyListener,
+                           BadMessageListener badMessageListener) {
+        this.tokenGrabber = tokenGrabber;
+        this.badMessageListener = badMessageListener;
+        this.readyListener = readyListener;
+    }
 
     public void initialize() {
         try {
             jda = JDABuilder.createDefault(tokenGrabber.getToken())
-                    .addEventListeners(readyListener)
+                    .addEventListeners(readyListener, badMessageListener)
                     .build();
 
             jda.awaitReady();
-        } catch (Exception ex) {
+        } catch (InterruptedException | LoginException ex) {
             throw new RuntimeException(ex);
         }
-    }
-
-    public void initializeBadMessageListener() {
-        jda.addEventListener(badMessageListener);
-    }
-
-    public boolean isRunning() {
-        return jda.getStatus().isInit();
     }
 
     public void shutdown() {
