@@ -1,8 +1,4 @@
 #!/bin/sh
-# Create a log directory if it doesn't exist
-if [ ! -d "$HOME/logs" ]; then
-  mkdir "$HOME/logs"
-fi
 
 # Get latest
 git pull origin main
