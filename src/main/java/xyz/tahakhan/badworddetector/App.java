@@ -17,10 +17,12 @@ public class App implements CommandLineRunner {
 
     public static void main(String[] args) {
         log.info("STARTING THE APPLICATION");
+
         SpringApplication app = new SpringApplication(App.class);
         // disable spring banner
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
+
         log.info("APPLICATION FINISHED");
     }
 
