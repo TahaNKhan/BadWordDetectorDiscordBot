@@ -46,7 +46,6 @@ public class BadWordDetector {
 
     public void shutdown() {
         log.info("Shutting down! Closing connection.");
-        System.out.println("SHUTTING DOWN!");
         jda.shutdownNow();
         log.info("Finished closing connection.");
     }
