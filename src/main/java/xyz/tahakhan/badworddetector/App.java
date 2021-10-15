@@ -1,6 +1,5 @@
 package xyz.tahakhan.badworddetector;
 
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
@@ -12,10 +11,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Log4j2
 public class App implements CommandLineRunner {
 
-    @Autowired
-    private BadWordDetector badWordDetector;
+    private final BadWordDetector badWordDetector;
 
-    public static void main(String[] args) throws Exception {
+    @Autowired
+    public App (BadWordDetector badWordDetector) {
+        this.badWordDetector = badWordDetector;
+    }
+
+    public static void main(String[] args) {
         log.info("STARTING THE APPLICATION");
 
         SpringApplication app = new SpringApplication(App.class);
@@ -27,9 +30,10 @@ public class App implements CommandLineRunner {
     @Override
     public void run(String[] args) {
         log.info("EXECUTING : Starting the bot...");
-        badWordDetector.initialize();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+
+        badWordDetector.initialize();
     }
 
     public void shutdown() {

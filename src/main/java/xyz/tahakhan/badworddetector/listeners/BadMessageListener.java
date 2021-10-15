@@ -19,17 +19,21 @@ import java.util.Random;
 public class BadMessageListener implements EventListener {
 
     private static final String[] names = { "PITA", "dumbass", "nerd" };
+    private static final Random RANDOM = new Random();
+
+    private final BadWordProcessor badWordSet;
 
     @Autowired
-    private BadWordProcessor badWordSet;
-
-    private static final Random RANDOM = new Random();
+    public BadMessageListener(BadWordProcessor badWordProcessor) {
+        this.badWordSet = badWordProcessor;
+    }
 
     @Override
     public void onEvent(@NotNull GenericEvent event) {
-        if (!(event instanceof MessageReceivedEvent)) {
+        if (!isMessageEvent(event)) {
             return;
         }
+
         MessageReceivedEvent messageEvent = (MessageReceivedEvent) event;
         String message = messageEvent.getMessage().getContentRaw();
         Member member = messageEvent.getMessage().getMember();
@@ -54,6 +58,10 @@ public class BadMessageListener implements EventListener {
         } catch (IOException e) {
             log.error("Unable to read message.", e);
         }
+    }
+
+    private boolean isMessageEvent(@NotNull GenericEvent event) {
+        return event instanceof MessageReceivedEvent;
     }
 
     private void sendBadReply(Member member, MessageReceivedEvent event) {

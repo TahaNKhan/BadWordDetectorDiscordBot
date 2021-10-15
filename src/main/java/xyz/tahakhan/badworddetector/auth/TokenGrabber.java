@@ -13,7 +13,7 @@ public class TokenGrabber {
         String token = System.getenv(TOKEN_KEY);
         if (!StringUtils.hasText(token))
         {
-            log.error("Unable to obtain token from System Variables, make sure the bot token value is set under the \""+ TOKEN_KEY  + "\" environment variable.");
+            log.error("Unable to obtain token from System Variables, make sure the bot token value is set under the \"" + TOKEN_KEY  + "\" environment variable.");
             throw new IllegalStateException("No token found in environment variables.");
         }
 
